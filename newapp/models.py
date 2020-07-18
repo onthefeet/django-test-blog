@@ -20,11 +20,5 @@ class Post(models.Model):
         return self.title
     
 class createPost(forms.Form):
-    # author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = forms.CharField(max_length=200)
     text=forms.CharField(widget=forms.Textarea)
-    # text = forms.TextField()
-    # created_date = forms.DateTimeField(
-    #         default=timezone.now)
-    # published_date = models.DateTimeField(
-    #         blank=True, null=True)
