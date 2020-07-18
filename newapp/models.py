@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django import forms
 
 # Create your models here.
 class Post(models.Model):
@@ -17,3 +18,13 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+class createPost(forms.Form):
+    # author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    title = forms.CharField(max_length=200)
+    text=forms.CharField(widget=forms.Textarea)
+    # text = forms.TextField()
+    # created_date = forms.DateTimeField(
+    #         default=timezone.now)
+    # published_date = models.DateTimeField(
+    #         blank=True, null=True)
