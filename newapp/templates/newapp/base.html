@@ -4,15 +4,19 @@
     </head>
     <body>
         {% block test %}
+        {% if user.is_authenticated %}
         {% for post in posts %}
         <div>
             <h1><a href="">{{ post.title }}</a></h1>
             <p>published: {{ post.published_date }}</p>
+            <p>published by {{post.author}}</p>
             <p>{{ post.text|linebreaksbr }}</p>
         </div>
         {% endfor %}
+        {% endif %}
             <p>testing the block</p>
         {% endblock %}
+
         
     </body>
 </html>

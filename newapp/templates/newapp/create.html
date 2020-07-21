@@ -1,4 +1,6 @@
+{% load static%}
 <html>
+    <link rel="stylesheet" href="{% static 'newapp/css/style.css' %}">
     <head>
         <title>This is the homepage</title>
     </head>
@@ -9,7 +11,12 @@
             {% csrf_token %}
             <p>testing the block</p>
             <button type="submit", name="save">Create New</button>
-        </form>
+            <br>
+            {% for e in choice %}
+                <input type="radio" name="choice" id="choice {{forloop.counter}}" value="{{e.title}}">
+                <label for = "{{e.title}}"> {{ e.title }}  </label> <br>
+            {% endfor %}
+            </form>
         {% endblock %}
         
     </body>

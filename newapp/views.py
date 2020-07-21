@@ -17,14 +17,16 @@ def test(response):
 
 
 def create(response):
+    admin=response.user
     if response.method == 'POST':
         create = createPost(response.POST)
         if create.is_valid():
-            admin=User.objects.get(username="admin")
             post=Post(author=admin,title=create.cleaned_data["title"],text=create.cleaned_data["text"])
             post.publish()
             return home(response)
+            # print(response.POST['choice'])
     else:
         create = createPost()
     create=createPost()
-    return render(response,"newapp/create.html",{'form':create})
+    choice=Post.objects.all()
+    return render(response,"newapp/create.html",{'form':create,'choice':choice})
