@@ -127,3 +127,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+SESSION_COOKIE_AGE = 10                   # 0r 5 * 60, same thing
+SESSION_SAVE_EVERY_REQUEST = True 
+LOGIN_URL='login/'

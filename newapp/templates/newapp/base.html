@@ -1,16 +1,43 @@
 <html>
     <head>
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <title>This is the homepage</title>
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'register' %}">Register <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'create' %}" tabindex="-1">Create</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
         {% block test %}
         {% if user.is_authenticated %}
+        <p>Hello,{{user}}</p>
         {% for post in posts %}
         <div>
-            <h1><a href="">{{ post.title }}</a></h1>
-            <p>published: {{ post.published_date }}</p>
-            <p>published by {{post.author}}</p>
-            <p>{{ post.text|linebreaksbr }}</p>
+            <h1 style="max-width:50%;margin: auto;text-align: center;"><a href="">{{ post.title }}</a></h1>
+            <p style="max-width:50%;margin: auto;text-align: center;">published: {{ post.published_date }}</p>
+            <p style="max-width:50%;margin: auto;text-align: center;">published by {{post.author}}</p>
+            <p style="color:maroon;border:0.5px solid black;max-width: 50%;margin: auto;border-radius: 5px;">{{ post.text|linebreaksbr }}</p>
         </div>
         {% endfor %}
         {% endif %}
