@@ -9,8 +9,14 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(response):
     if response.user.is_authenticated:
-        posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-        return render(response,"newapp/base.html",{'posts':posts})
+        query=response.GET.get("q")
+        if query:
+            posts=Post.objects.filter(title__icontains=query).order_by('published_date')
+            return render(response,"newapp/base.html",{'posts':posts})
+        else:
+
+            posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+            return render(response,"newapp/base.html",{'posts':posts})
     else:
         return views.user_login(response) 
 
@@ -32,3 +38,6 @@ def create(response):
     create=createPost()
     choice=Post.objects.all()
     return render(response,"newapp/create.html",{'form':create,'choice':choice})
+
+def search(request):
+    pass
