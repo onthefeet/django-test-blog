@@ -9,16 +9,17 @@ from django.db.models import Q
 
 # Create your views here.
 def home(response):
+    current=response.user
     if response.user.is_authenticated:
         query=response.GET.get("q")
         if query:
+            user=User.objects.all()
             posts=Post.objects.filter(Q(title__icontains=query)|
-            Q(text__icontains=query)).order_by('published_date')
+            Q(text__icontains=query)|Q(author__username__icontains=query)).order_by('published_date')
             return render(response,"newapp/base.html",{'posts':posts})
         else:
-
             posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-            return render(response,"newapp/base.html",{'posts':posts})
+            return render(response,"newapp/base.html",{'posts':posts,'curr':current})
     else:
         return views.user_login(response) 
 
@@ -41,5 +42,6 @@ def create(response):
     choice=Post.objects.all()
     return render(response,"newapp/create.html",{'form':create,'choice':choice})
 
-def search(request):
+
+def test(request):
     pass
