@@ -5,13 +5,15 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from register import views
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 def home(response):
     if response.user.is_authenticated:
         query=response.GET.get("q")
         if query:
-            posts=Post.objects.filter(title__icontains=query).order_by('published_date')
+            posts=Post.objects.filter(Q(title__icontains=query)|
+            Q(text__icontains=query)).order_by('published_date')
             return render(response,"newapp/base.html",{'posts':posts})
         else:
 
