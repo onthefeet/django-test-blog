@@ -29,7 +29,7 @@
         {% endblock %}
 
         {% block test %}
-        <form method="post", action="/create/">
+        <form method="post">
             {{form.as_p}}
             {% csrf_token %}
             <p>testing the block</p>

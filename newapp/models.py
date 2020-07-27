@@ -19,6 +19,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title
     
-class createPost(forms.Form):
+class createPost(forms.ModelForm):
     title = forms.CharField(max_length=200)
     text=forms.CharField(widget=forms.Textarea)
+    class Meta:
+        model=Post
+        fields=('title','text',)

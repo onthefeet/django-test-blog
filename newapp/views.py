@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from .models import Post,createPost
 from django.contrib.auth.models import User
@@ -6,6 +6,7 @@ from django.utils import timezone
 from register import views
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django import forms
 
 # Create your views here.
 def home(response):
@@ -43,5 +44,15 @@ def create(response):
     return render(response,"newapp/create.html",{'form':create,'choice':choice})
 
 
-def test(request):
-    pass
+def edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form =createPost(request.POST,instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.publish()
+            return redirect('home')
+    else:
+        form = createPost(instance=post)
+    return render(request, 'newapp/create.html', {'form': form})
