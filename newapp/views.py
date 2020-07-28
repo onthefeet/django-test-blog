@@ -42,7 +42,6 @@ def create(response):
             return redirect('/')
     else:
         create = createPost()
-    create=createPost()
     choice=Post.objects.all()
     return render(response,"newapp/create.html",{'form':create,'choice':choice,'custom':"Create"})
 

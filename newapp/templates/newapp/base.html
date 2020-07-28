@@ -1,10 +1,13 @@
 {% load static%}
+
+<!DOCTYPE html>
+
 <html>
     <head>
         <!-- bootstrap -->
         <!-- CSS only -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-      <link rel="stylesheet" href="{% static 'newapp/css/test.css' %}">
+        <link rel="stylesheet" href="{% static 'newapp/css/test.css' %}">
 
         <title>This is the homepage</title>
     </head>
@@ -48,7 +51,7 @@
           </div>
             <p style="max-width:50%;margin: auto;text-align: center;">published: {{ post.published_date }}</p>
             <p style="max-width:50%;margin: auto;text-align: center;">published by {{post.author}}</p>
-            <p style="color:maroon;border:0.5px solid black;max-width: 50%;margin: auto;border-radius: 5px;">{{ post.text|linebreaksbr }}</p>
+            <div style="color:maroon;border:0.5px solid black;max-width: 50%;margin: auto;border-radius: 5px;overflow-wrap: break-word;" > {{ post.text|safe}} </div>
         </div>
         {% endfor %}
         {% endif %}
@@ -60,6 +63,10 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
         <script src="{% static 'newapp/js/headroom.js'%}"></script>
+        <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/atom-one-dark.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
         <script>
           $(function(){
             var myElement=document.querySelector(".navbar");

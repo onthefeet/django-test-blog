@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'newapp',
-    'register'
+    'register',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SESSION_COOKIE_AGE = 10                   # 0r 5 * 60, same thing
 SESSION_SAVE_EVERY_REQUEST = True 
 LOGIN_URL='login/'
+
+CKEDITOR_CONFIGS = {
+    'default':
+        {'toolbar':  [["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],
+                ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
+                 'JustifyRight', 'JustifyBlock'],
+                ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo'], ["Source"],
+                ["Maximize","TextColor"],['CodeSnippet']],'extraPlugins':'codesnippet' },
+}
