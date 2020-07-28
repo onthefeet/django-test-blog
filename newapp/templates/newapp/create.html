@@ -33,7 +33,7 @@
             {{form.as_p}}
             {% csrf_token %}
             <p>testing the block</p>
-            <button type="submit", name="save">Create New</button>
+            <button type="submit", name="save">{{ custom }}</button>
             <br>
             {% for e in choice %}
                 <input type="radio" name="choice" id="choice {{forloop.counter}}" value="{{e.title}}">

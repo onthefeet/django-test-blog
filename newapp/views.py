@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from .models import Post,createPost
@@ -7,6 +9,7 @@ from register import views
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django import forms
+from .models import createPost
 
 # Create your views here.
 def home(response):
@@ -16,10 +19,10 @@ def home(response):
         if query:
             user=User.objects.all()
             posts=Post.objects.filter(Q(title__icontains=query)|
-            Q(text__icontains=query)|Q(author__username__icontains=query)).order_by('published_date')
+            Q(text__icontains=query)|Q(author__username__icontains=query)).order_by('-published_date')
             return render(response,"newapp/base.html",{'posts':posts})
         else:
-            posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+            posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
             return render(response,"newapp/base.html",{'posts':posts,'curr':current})
     else:
         return views.user_login(response) 
@@ -41,7 +44,7 @@ def create(response):
         create = createPost()
     create=createPost()
     choice=Post.objects.all()
-    return render(response,"newapp/create.html",{'form':create,'choice':choice})
+    return render(response,"newapp/create.html",{'form':create,'choice':choice,'custom':"Create"})
 
 
 def edit(request, pk):
@@ -49,10 +52,21 @@ def edit(request, pk):
     if request.method == "POST":
         form =createPost(request.POST,instance=post)
         if form.is_valid():
-            post = form.save(commit=False)
             post.author = request.user
             post.publish()
             return redirect('home')
     else:
         form = createPost(instance=post)
-    return render(request, 'newapp/create.html', {'form': form})
+    return render(request, 'newapp/create.html', {'form': form,'custom':"Edit"})
+
+def delete(request,pk):
+    post = get_object_or_404(Post,pk=pk)
+    if request.method == 'POST':
+        form=createPost(request.POST,instance=post)
+        form.set_disable(instance=post)
+        post.delete()
+        return redirect('home')
+    else:
+        form = createPost(instance=post)
+        form.set_disable(instance=post)
+    return render(request,'newapp/create.html',{'form':form,'custom':"Delete"})

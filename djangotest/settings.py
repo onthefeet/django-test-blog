@@ -84,7 +84,7 @@ DATABASES = {
         'USER':'root',
         'PASSWORD':'',
         'PORT' : '',
-        'default-character-set':'utf8'
+        'default-character-set':'utf-8'
     }
 }
 

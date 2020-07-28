@@ -22,6 +22,12 @@ class Post(models.Model):
 class createPost(forms.ModelForm):
     title = forms.CharField(max_length=200)
     text=forms.CharField(widget=forms.Textarea)
+
+    def set_disable(self,*args,**kwargs):
+        super(createPost,self).__init__(*args,**kwargs)
+        self.fields['title'].disabled=True
+        self.fields['text'].disabled=True
+
     class Meta:
         model=Post
         fields=('title','text',)
