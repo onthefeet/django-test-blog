@@ -1,5 +1,30 @@
 {% extends 'newapp/base.html'%}
 
-{% block test %}
-    <p>this is home</p>
-{% endblock %} 
+<!DOCTYPE html>
+
+<html>
+    <head>
+        {% block head_title %}<title>Homepage</title> {% endblock %}
+    </head>
+    <body>
+        {% block content %}
+        {% if user.is_authenticated %}
+            <p>Hello,{{user}}</p>
+        {% for post in posts %}
+        <div>
+          <div style="display:flex;align-items: center;justify-content: center;">
+            <h1 style="max-width:50%;text-align: right;"><a href="{% url 'article' pk=post.pk %}">{{ post.title }}</a></h1>
+            {% if curr == post.author %}
+            <a name="edit"  href="{% url 'edit' pk=post.pk %}"  style="margin-left:1rem;border:1px solid black; padding:0.3rem 0.8rem 0.3rem 0.8rem;">Edit</a>
+            <a name="delete"  href="{% url 'delete' pk=post.pk %}"  style="margin-left:1rem;border:1px solid black; padding:0.3rem 0.8rem 0.3rem 0.8rem;">Delete</a>
+            {% endif %}
+          </div>
+            <p style="max-width:50%;margin: auto;text-align: center;">published on: {{ post.published_date }}</p>
+            <p style="max-width:50%;margin: auto;text-align: center;">published by {{post.author}}</p>
+            <div style="color:maroon;border:0.5px solid black;max-width: 50%;margin: auto;border-radius: 5px;overflow-wrap: break-word;" > {{ post.description|safe}} </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endblock %}
+    </body>
+</html>
