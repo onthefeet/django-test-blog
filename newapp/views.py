@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from .models import Post,createPost
@@ -10,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django import forms
 from .models import createPost
+from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 
 # Create your views here.
 def home(response):
@@ -22,8 +21,18 @@ def home(response):
             Q(text__icontains=query)|Q(author__username__icontains=query)).order_by('-published_date')
             return render(response,"newapp/home.html",{'posts':posts})
         else:
-            posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-            return render(response,"newapp/home.html",{'posts':posts,'curr':current})
+            post_list = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+            p = Paginator(post_list,5)
+            page_number=response.GET.get('page')
+            try:
+                posts=p.page(page_number)
+            except PageNotAnInteger:
+                posts=p.page(1)
+            except EmptyPage:
+                posts=p.page(p.num_pages)
+
+            page_obj=p.get_page(page_number)
+            return render(response,"newapp/home.html",{'posts':posts,'curr':current,'page_obj':page_obj})
     else:
         return views.user_login(response) 
 

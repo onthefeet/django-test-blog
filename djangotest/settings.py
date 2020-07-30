@@ -138,6 +138,7 @@ CKEDITOR_CONFIGS = {
         {'toolbar':  [["Format", "Bold", "Italic", "Underline", "Strike", "Subscript","Superscript"],["TextColor","BGColor"],
                 ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
                  'JustifyRight', 'JustifyBlock'],
-                ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink"], ['Undo', 'Redo'], ["Source"],
+                ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink","Iframe"], ['Undo', 'Redo'], ["Source"],
                 ["Maximize"],['CodeSnippet']],'extraPlugins':'codesnippet','width':'100%' }
 }
+
