@@ -9,6 +9,8 @@ from django.db.models import Q
 from django import forms
 from .models import createPost
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
+from taggit.models import Tag
+
 
 # Create your views here.
 def home(response):
@@ -47,7 +49,9 @@ def create(response):
     if response.method == 'POST':
         create = createPost(response.POST)
         if create.is_valid():
-            post=Post(author=admin,title=create.cleaned_data["title"],text=create.cleaned_data["text"])
+            post=Post(author=admin,title=create.cleaned_data["title"],text=create.cleaned_data["text"],description=create.cleaned_data["description"])
+            post.save()
+            post.tags.add(*create.cleaned_data["tags"])
             post.publish()
             return redirect('/')
     else:
@@ -61,6 +65,7 @@ def edit(request, pk):
         form =createPost(request.POST,instance=post)
         if form.is_valid():
             post.author = request.user
+            post.tags.set(*form.cleaned_data["tags"],clear=False)
             post.publish()
             return redirect('home')
     else:
@@ -78,3 +83,13 @@ def delete(request,pk):
         form = createPost(instance=post)
         form.set_disable(instance=post)
     return render(request,'newapp/create.html',{'form':form,'custom':"Delete"})
+
+def tagged(request, slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    # Filter posts by tag name  
+    posts = Post.objects.filter(tags=tag)
+    context = {
+        'tag':tag,
+        'posts':posts,
+    }
+    return render(request, 'newapp/home.html', context)

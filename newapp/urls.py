@@ -7,4 +7,6 @@ urlpatterns = [
     re_path(r'^post/(?P<pk>[0-9]+)/edit/$', views.edit, name='edit'),
     re_path(r'^post/(?P<pk>[0-9]+)/delete/$', views.delete, name='delete'),
     re_path(r'^post/(?P<pk>[0-9]+)/test/$', views.test, name='article'),
+    path('tag/<slug:slug>/', views.tagged, name="tagged"),
+
 ]

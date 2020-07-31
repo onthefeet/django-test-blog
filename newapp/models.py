@@ -3,12 +3,14 @@ from django.utils import timezone
 from django import forms
 from ckeditor.fields import RichTextField
 from ckeditor.widgets import CKEditorWidget
+from taggit.managers import TaggableManager
 
 # Create your models here.
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description  = RichTextField(blank = True, null = "")
+    tags = TaggableManager()
     text = RichTextField(blank = True, null = True)
     created_date = models.DateTimeField(
             default=timezone.now)
@@ -38,10 +40,11 @@ class createPost(forms.ModelForm):
         self.fields['title'].disabled=True
         self.fields['text'].disabled=True
         self.fields['description'].disabled=True
+        self.fields['tags'].disabled=True
 
     class Meta:
         model=Post
-        fields=('title','description','text')
+        fields=('title','tags','description','text')
         labels = {
             "title":"titleclass",
             "description":"descriptionclass"

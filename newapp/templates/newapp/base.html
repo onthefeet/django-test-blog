@@ -57,5 +57,12 @@
             headroom.init();
           });
         </script>
+        <script src="{% static 'newapp/js/bootstrap-tagsinput.js' %}"></script>
+        <script>
+        $("#post-form").submit(function(e){
+          e.preventDefault();
+        });
+        </script>
+
     </body>
 </html>

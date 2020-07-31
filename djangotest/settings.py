@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'newapp',
     'register',
-    'ckeditor'
+    'ckeditor',
+    'taggit'
 ]
 
 MIDDLEWARE = [
@@ -136,9 +137,12 @@ LOGIN_URL='login/'
 CKEDITOR_CONFIGS = {
     'default':
         {'toolbar':  [["Format", "Bold", "Italic", "Underline", "Strike", "Subscript","Superscript"],["TextColor","BGColor"],
-                ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
+                ['Styles', 'Format', 'Font', 'FontSize'],['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
                  'JustifyRight', 'JustifyBlock'],
                 ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink","Iframe"], ['Undo', 'Redo'], ["Source"],
                 ["Maximize"],['CodeSnippet']],'extraPlugins':'codesnippet','width':'100%' }
 }
+
+TAGGIT_CASE_INSENSITIVE = True
+
 

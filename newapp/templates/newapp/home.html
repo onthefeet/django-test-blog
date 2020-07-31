@@ -19,6 +19,11 @@
             <a name="delete"  href="{% url 'delete' pk=post.pk %}"  style="margin-left:1rem;border:1px solid black; padding:0.3rem 0.8rem 0.3rem 0.8rem;">Delete</a>
             {% endif %}
           </div>
+          <div style="display: flex;justify-content: center;"> 
+            {% for tag in post.tags.all %}
+            <h3><a href="{% url 'tagged' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a></h3>
+            {% endfor %}
+          </div>
             <p style="max-width:50%;margin: auto;text-align: center;">published on: {{ post.published_date }}</p>
             <p style="max-width:50%;margin: auto;text-align: center;">published by {{post.author}}</p>
             <div style="color:maroon;border:0.5px solid black;max-width: 50%;margin: auto;border-radius: 5px;overflow-wrap: break-word;" > {{ post.description|safe}} </div>

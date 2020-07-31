@@ -25,7 +25,7 @@ def user_login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            request.session.set_expiry(300)
+            request.session.set_expiry(1800)
             return redirect('/')
     return render(request, 'register/login.html')
 
