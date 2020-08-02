@@ -15,6 +15,7 @@ from taggit.models import Tag
 # Create your views here.
 def home(response):
     current=response.user
+    most_common = Post.tags.most_common()[:10]
     if response.user.is_authenticated:
         query=response.GET.get("q")
         if query:
@@ -34,7 +35,11 @@ def home(response):
                 posts=p.page(p.num_pages)
 
             page_obj=p.get_page(page_number)
-            return render(response,"newapp/home.html",{'posts':posts,'curr':current,'page_obj':page_obj})
+            context= {
+                'posts':posts,'curr':current,'page_obj':page_obj,
+                'common':most_common
+            }
+            return render(response,"newapp/home.html",context)
     else:
         return views.user_login(response) 
 

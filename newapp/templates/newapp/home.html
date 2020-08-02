@@ -10,6 +10,11 @@
         {% block content %}
         {% if user.is_authenticated %}
             <p>Hello,{{user}}</p>
+        <div style="text-align: center;">
+          {% for tag in common %}
+            <h3 style="display:inline"><a href="{% url 'tagged' tag.slug %}" class="mr-1 badge badge-info">#{{ tag }}</a></h3>
+          {% endfor %}
+        </div>
         {% for post in posts %}
         <div>
           <div style="display:flex;align-items: center;justify-content: center;">
@@ -30,7 +35,6 @@
         </div>
         {% endfor %}
         {% endif %}
-
         {% if page_obj.has_previous %}
         <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
         <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
