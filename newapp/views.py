@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from .models import Post,createPost
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from register import views
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django import forms
-from .models import createPost
+from .models import createPost,Comment,createComment
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from taggit.models import Tag
 
@@ -46,7 +47,20 @@ def home(response):
 def test(response,pk):
     post = get_object_or_404(Post, pk=pk)
     if response.method =='GET':
-        return render(response,"newapp/article.html",{'post':post})
+        create = createComment()
+        cmt_list = Comment.objects.filter(belong = post.pk)
+        return render(response,"newapp/article.html",{'post':post,'cmt_list':cmt_list,'form':create})
+    elif response.method == 'POST':
+        create = createComment(response.POST)
+        if create.is_valid():
+            cmt_user = response.user                       
+            cmt_articleid = post.pk     
+            cmt_body = create.cleaned_data["text"]
+            parent_id = response.POST.get("parent_id")
+            comment = Comment(author = cmt_user , belong = post, body = cmt_body)
+            comment.save()
+            return HttpResponseRedirect(post.get_absolute_url())
+
 
 @login_required
 def create(response):

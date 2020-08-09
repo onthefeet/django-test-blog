@@ -7,3 +7,51 @@
 .headroom--unpinned {
     transform: translateY(-100%);
 }
+
+body{
+    background-color: #f4f4f4;
+}
+
+main{
+    max-width: 71%;
+    margin: 2.5rem auto;
+    font-family: sans-serif;
+}
+
+
+.header-title{
+    overflow-wrap: break-word;
+    background-color: white;
+    text-align: center;
+}
+
+.post-content{
+    background-color: white;
+    margin-top:2px;
+}
+
+hr{
+    display: block;
+    margin: 0 auto;
+    border:0;
+    width:95%;
+    border-top:1px solid rgba(0,0,0,.1);
+}
+
+.post-detail{
+    margin-top: 1.5rem;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.post-detail p{
+    margin:0 4rem 0 4rem;
+    font-size: 0.85rem;
+}
+
+.post-content{
+    margin: 1rem auto 0 auto;
+    padding-bottom: 0.5rem;
+    max-width: 95%;
+}

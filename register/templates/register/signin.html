@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Random Blog</title>
+        <link rel="stylesheet" href="{% static 'register/css/signin.css' %}">
+    </head>
+    <body>
+        <div class="hero">
+            <div class="form-box">
+                <div class="button-box">
+                    <div id="btn"></div>
+                    <button type="button" class="toggle-btn" onclick="login()">Login</button>
+                    <button type="button" class="toggle-btn" onclick="register()">Register</button>
+                </div>
+                <div class="social-icons">
+                    <img src="{% static 'register/images/fb.png' %}">
+                    <img src="{% static 'register/images/gp.png' %}">
+                </div>
+                <form method="POST" id="login" class="input-group">
+                        {% csrf_token %}
+                    <input type="text" class="input-field" placeholder="Username" name="username" required>
+                    <input type="password" class="input-field" placeholder="Password" name="password" required>
+                    <!-- <span>Remember Password</span> -->
+                    <button type="submit" class="submit-btn">Login</button>
+                    <!-- <a href="/" style="color:black;" >Skip login, take me to the homepage</a> -->
+                </form>
+                <form method="POST" id="register" class="input-group">
+                        {% csrf_token %}
+                    <!-- <input type="text" class="input-field" placeholder="Email" name="reg-email" required> -->
+                    <input type="text" class="input-field" placeholder="Username" name="reg-user" required>
+                    <input type="password" class="input-field" placeholder="Password" name="reg-pass" required>
+                    <button type="submit" class="submit-btn">Register</button>
+                </form>
+            </div>
+        </div> 
+        <script>
+
+            var x = document.getElementById("login");
+            var y = document.getElementById("register");
+            var z = document.getElementById("btn");
+            const button = document.querySelectorAll('button');
+            button[0].disabled=true;
+            function register(){
+                window.history.pushState("",null,"register/");
+                button[0].disabled=false;
+                button[1].disabled=true;
+                x.style.left="-400px";
+                y.style.left="50px";
+                z.style.left="110px";
+            }
+            function login(){
+                window.history.go(-1)
+                button[0].disabled=true;
+                button[1].disabled=false;
+                x.style.left="50px";
+                y.style.left="450px";
+                z.style.left="0";
+            }
+        </script>
+    </body>
+</html>

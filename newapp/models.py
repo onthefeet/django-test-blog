@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 from django import forms
 from ckeditor.fields import RichTextField
 from ckeditor.widgets import CKEditorWidget
@@ -23,6 +24,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('article', kwargs={'pk': self.pk})
+
     
 class createPost(forms.ModelForm):
     title = forms.CharField(max_length=200)
@@ -49,3 +54,25 @@ class createPost(forms.ModelForm):
             "title":"titleclass",
             "description":"descriptionclass"
         }
+
+
+class Comment(models.Model) :
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name = 'commenter')
+    body  = RichTextField(blank = True, null = "")
+    create_date = models.DateTimeField('time',auto_now_add=True)
+    belong = models.ForeignKey(Post,on_delete=models.CASCADE)
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, blank = True, null = True)
+
+
+    class Meta:
+        verbose_name = 'commentor'
+        verbose_name_plural = verbose_name
+        ordering = ['-create_date']
+    
+
+class createComment(forms.ModelForm):
+    text=forms.CharField(widget = CKEditorWidget())
+
+    class Meta:
+        model=Comment
+        fields=('text',)

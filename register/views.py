@@ -8,15 +8,15 @@ from newapp import views
 def register(response):
     if response.method == 'POST':
         try:
-            username=response.POST['username']
-            password=response.POST['password']
+            username=response.POST['reg-user']
+            password=response.POST['reg-pass']
             User.objects.create_user(username=username,password=password)
             return redirect('/login')
         except IntegrityError :
             print("hello")
         except ValueError:
             print("haha")
-    return render(response,"register/index.html")
+    return render(response,"register/register.html")
 
 def user_login(request):
     if request.method == "POST":
@@ -27,7 +27,7 @@ def user_login(request):
             login(request, user)
             request.session.set_expiry(1800)
             return redirect('/')
-    return render(request, 'register/login.html')
+    return render(request, 'register/signin.html')
 
 def user_logout(request):
     logout(request)

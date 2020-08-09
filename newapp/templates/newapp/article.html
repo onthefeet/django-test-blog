@@ -12,16 +12,57 @@
         {% block content %}
         {% if user.is_authenticated %}
         <p>Hello,{{user}}</p>
-        <div>
-          <div style="display:flex;align-items: center;justify-content: center;">
-            <h1 style="max-width:50%;text-align: right;">{{ post.title }}</h1>
+        <main>
+          <div class="container">
+              <div class="header-title">
+                      <h1 id="title-name">{{ post.title }}</h1>
+                  <hr>
+                  <span class="post-detail">
+                      <p>Published date: {{ post.published_date }}</p>
+                      <p>Published by: {{ post.author }}</p>
+                  </span>
+                  <div class="post-content">
+                     {{ post.text|safe}} 
+                  </div>
+              </div>
+              {% endif %}
+              <br>
+
+            <form method="post">
+            {{ form.media }}
+            {% csrf_token %}
+            {% for x in form %}
+              <div class="create-control">
+                  {{x}}
+              </div>
+            {% endfor %}
+            <button type="submit", name="save">Comment</button>
+            <br>
+            </form>
+              <div class="list-group" style="margin-top: 1rem;background-color: white;">
+                <a class="list-group-item disabled" style="border:0;">Comment</a>
+                <hr style="max-width: 95%;">
+                {% for cmt in cmt_list %}
+                    <div style="display:flex;flex-direction: column;">
+                        <span style="margin: 0.5rem 0 0 1.5rem;">
+                            {{cmt.author}}:
+                            <p style="font-size: 12px;">{{cmt.create_date}}</p>
+                        </span>
+                    </div>
+                    <div style="margin-left:1.5rem;margin-right:1.5rem;max-width: 95%;">
+                        {{cmt.body|safe}}
+                    </div>
+                    {% if not forloop.last %}
+                        <hr style="max-width: 95%;">
+                    {% endif %}
+                    {% empty %}
+                        <h4>No comment!</h4>
+                        <hr style="max-width: 95%;">
+                {% endfor %}
+               </div>
+              {% endblock %}
           </div>
-            <p style="max-width:50%;margin: auto;text-align: center;">published: {{ post.published_date }}</p>
-            <p style="max-width:50%;margin: auto;text-align: center;">published by {{post.author}}</p>
-            <div style="color:maroon;border:0.5px solid black;max-width: 75%;margin: 0 auto 1rem auto;border-radius: 5px;overflow-wrap: break-word;" > {{ post.text|safe}} </div>
-        </div>
-        {% endif %}
-        {% endblock %}
+      </main>
 
     </body>
 </html>

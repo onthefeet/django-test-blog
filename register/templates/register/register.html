@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Random Blog</title>
+        <link rel="stylesheet" href="{% static 'register/css/register.css' %}">
+    </head>
+    <body>
+        <div class="hero">
+            <div class="form-box">
+                <div class="button-box">
+                <div id="btn">
+                    <button type="button" class="toggle-btn">Signup</button>
+                </div>
+                </div>
+                <form method="POST" id="register" class="input-group">
+                        {% csrf_token %}
+                    <!-- <input type="text" class="input-field" placeholder="Email" name="reg-email" required> -->
+                    <input type="text" class="input-field" placeholder="Username" name="reg-user" required>
+                    <input type="text" class="input-field" placeholder="Password" name="reg-pass" required>
+                    <button type="submit" class="submit-btn">Register</button>
+                </form>
+            </div>
+        </div> 
+    </body>
+</html>
