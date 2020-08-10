@@ -61,7 +61,7 @@ class Comment(models.Model) :
     body  = RichTextField(blank = True, null = "")
     create_date = models.DateTimeField('time',auto_now_add=True)
     belong = models.ForeignKey(Post,on_delete=models.CASCADE)
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, blank = True, null = True)
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, blank = True, null = True, related_name="replies")
 
 
     class Meta:
@@ -71,8 +71,9 @@ class Comment(models.Model) :
     
 
 class createComment(forms.ModelForm):
-    text=forms.CharField(widget = CKEditorWidget())
+    text=forms.CharField(widget = CKEditorWidget(),label=False)
 
     class Meta:
         model=Comment
         fields=('text',)
+        

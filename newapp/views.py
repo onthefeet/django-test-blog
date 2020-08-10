@@ -46,21 +46,35 @@ def home(response):
 
 def test(response,pk):
     post = get_object_or_404(Post, pk=pk)
+    cmt_list = Comment.objects.filter(belong = post.pk, parent__isnull=True)
     if response.method =='GET':
         create = createComment()
-        cmt_list = Comment.objects.filter(belong = post.pk)
         return render(response,"newapp/article.html",{'post':post,'cmt_list':cmt_list,'form':create})
     elif response.method == 'POST':
         create = createComment(response.POST)
         if create.is_valid():
+            parent_obj = None
+            try:
+                parent_id = int(response.POST.get('parent_id'))
+            except:
+                parent_id = None
+            
+            if parent_id:
+                parent_obj = Comment.objects.get(id = parent_id)
+                if parent_obj:
+                    comment=Comment(author=response.user, belong = post , body=create.cleaned_data["text"], parent=parent_obj)
+                    comment.save()
+                    return HttpResponseRedirect(post.get_absolute_url())
+
             cmt_user = response.user                       
             cmt_articleid = post.pk     
             cmt_body = create.cleaned_data["text"]
-            parent_id = response.POST.get("parent_id")
             comment = Comment(author = cmt_user , belong = post, body = cmt_body)
             comment.save()
             return HttpResponseRedirect(post.get_absolute_url())
-
+        else:
+            create=createComment()
+        return render(response,"newapp/article.html",{'post':post,'cmt_list':cmt_list,'form':create})
 
 @login_required
 def create(response):

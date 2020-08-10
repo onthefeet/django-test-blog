@@ -43,14 +43,35 @@
                 <a class="list-group-item disabled" style="border:0;">Comment</a>
                 <hr style="max-width: 95%;">
                 {% for cmt in cmt_list %}
-                    <div style="display:flex;flex-direction: column;">
+                    <div class="test" style="display:flex;flex-direction: column;">
                         <span style="margin: 0.5rem 0 0 1.5rem;">
                             {{cmt.author}}:
-                            <p style="font-size: 12px;">{{cmt.create_date}}</p>
+                            <p style="font-size: 12px;">{{cmt.create_date}}
+                            {% if cmt.replies.count > 0 %}
+                            | {{cmt.replies.count}} Comments | {% endif %}
+                            <a class="comment-reply-btn" href='#'>Reply</a>
+                            </p>
                         </span>
                     </div>
                     <div style="margin-left:1.5rem;margin-right:1.5rem;max-width: 95%;">
                         {{cmt.body|safe}}
+                    </div>
+                    <div class="comment-reply" style="display:none">
+                        {% for reply in cmt.replies.all reversed %}
+                        <div style="border-left:10px solid; border-color: #e6e4e4a6;margin-left:3rem;margin-bottom:0.5rem;">
+                            <div style="margin-left:1rem;">
+                                <p class="info">{{ reply.author }} | {{ reply.create_date}}</p>
+                                {{ reply.body }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <form action="." method="post" style="margin-left:3rem;">
+                            {{ form.as_p }}
+                            {% csrf_token %}
+                            <!-- Hidden input for parent comment.id -->
+                            <input type="hidden" name="parent_id" value="{{ cmt.id }}">
+                            <input class="btn btn-primary" type="submit" value="Reply" style="margin-bottom: 1rem;">
+                        </form>
                     </div>
                     {% if not forloop.last %}
                         <hr style="max-width: 95%;">
@@ -63,6 +84,7 @@
               {% endblock %}
           </div>
       </main>
+      
 
     </body>
 </html>
